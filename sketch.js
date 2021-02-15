@@ -11,6 +11,7 @@ const STATES = {
   ENED: 'ended'
 }
 let state = STATES.PLAYING;
+let shakeFrames = 0;
 
 function setup() {
   createCanvas(640, 480);
@@ -39,6 +40,7 @@ function drawPlaying() {
     if (pipes[i].hits(bird)) {
       //console.log('HIT');
       bird.hit();
+      shakeFrames = 0;
       state = STATES.ENDED;
     }
 
@@ -46,7 +48,6 @@ function drawPlaying() {
       pipes.splice(i, 1);
     }
   }
-
   bird.update();
   bird.show();
 
@@ -56,6 +57,11 @@ function drawPlaying() {
 }
 
 function drawEnded() {
+  // shake
+  if (shakeFrames < 8) {
+    translate(0, random(-5,5));
+    shakeFrames++;
+  }
   // draw pipes
   for (var i = pipes.length - 1; i >= 0; i--) {
     pipes[i].show();
