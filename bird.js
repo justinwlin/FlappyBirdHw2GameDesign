@@ -1,6 +1,7 @@
 function Bird() {
   this.isDead = false;
   this.particleSystem = null;
+  this.tail = [];
 
   this.y = height / 2;
   this.x = 120;
@@ -13,7 +14,18 @@ function Bird() {
     if (this.isDead) { return; }
     fill(255);
     ellipse(this.x, this.y, 32, 32);
+    this.showTails();
   };
+
+  this.showTails = function () {
+    for(let i = 0; i < this.tail.length-1; i+=2) {
+      let diam = map(i,0,this.tail.length,0,32);
+      let col =  map(i,0,this.tail.length,0,255);
+      noStroke();
+      fill(col);
+      ellipse(this.tail[i], this.  tail[i+1], diam, diam);
+    }
+  }
 
   this.up = function () {
     if (this.isDead) { return; }
@@ -36,6 +48,10 @@ function Bird() {
     if (this.y < 0) {
       this.y = 0;
       this.velocity = 0;
+    }
+    this.tail.push(this.x, this.y);
+    if (this.tail.length > 20) {
+      this.tail.splice(0, 2);
     }
   };
 
