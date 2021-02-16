@@ -14,7 +14,9 @@ function Bird() {
     if (this.isDead) { return; }
     fill(255);
     ellipse(this.x, this.y, 32, 32);
-    this.showTails();
+    if (TAIL) {
+      this.showTails();
+    }
   };
 
   this.showTails = function () {
@@ -57,9 +59,11 @@ function Bird() {
 
   this.hit = function() {
     this.isDead = true;
-    this.particleSystem = new ParticleSystem(
-      createVector(this.x, this.y),
-      Particle);
-    this.particleSystem.run();
+    if (HIT_PARTICLE) {
+      this.particleSystem = new ParticleSystem(
+        createVector(this.x, this.y),
+        Particle);
+      this.particleSystem.run();
+    }
   }
 }

@@ -2,6 +2,11 @@
 // http://codingtra.in
 // http://patreon.com/codingtrain
 // Code for: https://youtu.be/cXgA1d_E-jY&
+let HIT_PARTICLE = true;
+let HIT_SHAKE = true;
+let UP_SHAKE = true;
+let TAIL = true;
+
 
 let bird;
 let pipes = [];
@@ -33,7 +38,9 @@ function draw() {
 }
 
 function drawPlaying() {
-  translate(0, bird.velocity / 4);
+  if (UP_SHAKE) {
+    translate(0, bird.velocity / 4);
+  }
   for (var i = pipes.length - 1; i >= 0; i--) {
     pipes[i].show();
     pipes[i].update();
@@ -59,7 +66,7 @@ function drawPlaying() {
 
 function drawEnded() {
   // shake
-  if (shakeFrames < 8) {
+  if (HIT_SHAKE && shakeFrames < 8) {
     translate(0, random(-5,5));
     shakeFrames++;
   }
