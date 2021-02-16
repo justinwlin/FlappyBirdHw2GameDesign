@@ -33,6 +33,7 @@ function draw() {
 }
 
 function drawPlaying() {
+  translate(0, bird.velocity / 4);
   for (var i = pipes.length - 1; i >= 0; i--) {
     pipes[i].show();
     pipes[i].update();
