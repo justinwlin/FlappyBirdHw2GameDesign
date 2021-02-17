@@ -7,30 +7,57 @@ let HIT_SHAKE = true;
 let UP_SHAKE = true;
 let TAIL = true;
 
-
+let song;
+let jumpsound;
 let bird;
 let pipes = [];
+let resetState = false;
 const STATES = {
   READY: 'ready',
   PLAYING: 'playing',
   ENED: 'ended'
-}
+};
 let state = STATES.PLAYING;
 let shakeFrames = 0;
 
+function preload() {
+  song = loadSound('megalovania.mp3');
+  jumpsound = loadSound('swoosh.wav');
+}
+
 function setup() {
   createCanvas(640, 480);
+  song.loop();
   bird = new Bird();
   pipes.push(new Pipe());
+}
+
+function reset() {
+  bird = 0;
+  pipes = [];
+  state = STATES.PLAYING;
+  shakeFrames = 0;
+  bird = new Bird();
+  resetState = false;
 }
 
 function draw() {
   background(0);
   switch (state) {
     case STATES.PLAYING: {
+      console.log('a');
       drawPlaying();
       break;
     } case STATES.ENDED: {
+      console.log('b');
+
+      if (resetState == false) {
+        setTimeout(() => {
+          reset();
+          console.log('RESETTING');
+        }, 1000);
+        resetState = true;
+      }
       drawEnded();
       break;
     }
@@ -67,7 +94,7 @@ function drawPlaying() {
 function drawEnded() {
   // shake
   if (HIT_SHAKE && shakeFrames < 8) {
-    translate(0, random(-5,5));
+    translate(0, random(-5, 5));
     shakeFrames++;
   }
   // draw pipes
@@ -81,6 +108,7 @@ function drawEnded() {
 function keyPressed() {
   if (key == ' ') {
     bird.up();
+    jumpsound.play();
     //console.log("SPACE");
   }
 }
